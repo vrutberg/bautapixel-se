@@ -16,9 +16,9 @@
     --fg: #16161a;
     --muted: #6b6b73;
     --rule: rgba(22, 22, 26, 0.12);
-    /* Solid mid-tone behind the gradient. It is what shows in the rubber-band
-       overscroll areas, so it should sit between the gradient's two ends. */
-    --page-base: #eceef3;
+    /* Matches the linear-gradient's final stop, so anywhere the gradient image
+       itself doesn't reach still blends into it seamlessly. */
+    --page-base: #e2e7f0;
     --page-bg:
       radial-gradient(1100px 620px at 50% -10%, rgba(255, 255, 255, 0.95), transparent 62%),
       linear-gradient(158deg, #f7f4f0 0%, #edeef3 52%, #e2e7f0 100%);
@@ -29,7 +29,7 @@
       --fg: #ededf0;
       --muted: #9a9aa4;
       --rule: rgba(237, 237, 240, 0.14);
-      --page-base: #101218;
+      --page-base: #0b0d12;
       --page-bg:
         radial-gradient(1100px 620px at 50% -10%, rgba(78, 90, 120, 0.32), transparent 62%),
         linear-gradient(158deg, #15151a 0%, #111318 52%, #0b0d12 100%);
@@ -40,14 +40,20 @@
 
   /* The gradient lives on the root element, not on <body>: only the root
      element's background becomes the canvas background, and the canvas is what
-     Safari on iOS paints behind its translucent top and bottom bars and in the
-     overscroll areas. On <body> with `background-attachment: fixed` iOS clips
-     it to the body box and leaves those strips flat instead. */
+     Safari on iOS paints behind its top and bottom bars and in the overscroll
+     areas. On <body> with `background-attachment: fixed` iOS clips it to the
+     body box and leaves those strips flat instead. */
   html {
     min-height: 100%;
     background-color: var(--page-base);
     background-image: var(--page-bg);
     background-repeat: no-repeat;
+    /* The root box only reaches the bottom of the *visible* area, which on iOS
+       stops where the toolbar begins — sizing the gradient to that box is what
+       left a flat strip behind the bar. `lvh` is the viewport with the bars
+       retracted, i.e. the whole screen, so the gradient carries on behind them.
+       `max()` keeps it spanning the document if content ever grows past that. */
+    background-size: 100% max(100%, 100lvh);
   }
 
   body {
