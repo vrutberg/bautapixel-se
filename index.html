@@ -2,9 +2,9 @@
 <html lang="sv">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Bautapixel AB</title>
-<meta name="description" content="Bautapixel AB arbetar med digitala lösningar och gränssnitt för människor. Organisationsnummer 559501-1528.">
+<meta name="description" content="Bautapixel AB gör appar och spel för iOS och andra Apple-plattformar. Organisationsnummer 559501-1528.">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -16,6 +16,9 @@
     --fg: #16161a;
     --muted: #6b6b73;
     --rule: rgba(22, 22, 26, 0.12);
+    /* Solid mid-tone behind the gradient. It is what shows in the rubber-band
+       overscroll areas, so it should sit between the gradient's two ends. */
+    --page-base: #eceef3;
     --page-bg:
       radial-gradient(1100px 620px at 50% -10%, rgba(255, 255, 255, 0.95), transparent 62%),
       linear-gradient(158deg, #f7f4f0 0%, #edeef3 52%, #e2e7f0 100%);
@@ -26,6 +29,7 @@
       --fg: #ededf0;
       --muted: #9a9aa4;
       --rule: rgba(237, 237, 240, 0.14);
+      --page-base: #101218;
       --page-bg:
         radial-gradient(1100px 620px at 50% -10%, rgba(78, 90, 120, 0.32), transparent 62%),
         linear-gradient(158deg, #15151a 0%, #111318 52%, #0b0d12 100%);
@@ -34,16 +38,33 @@
 
   * { box-sizing: border-box; }
 
+  /* The gradient lives on the root element, not on <body>: only the root
+     element's background becomes the canvas background, and the canvas is what
+     Safari on iOS paints behind its translucent top and bottom bars and in the
+     overscroll areas. On <body> with `background-attachment: fixed` iOS clips
+     it to the body box and leaves those strips flat instead. */
+  html {
+    min-height: 100%;
+    background-color: var(--page-base);
+    background-image: var(--page-bg);
+    background-repeat: no-repeat;
+  }
+
   body {
     margin: 0;
     min-height: 100vh;
     min-height: 100svh;
-    background: var(--page-bg) fixed;
     color: var(--fg);
     font: 16px/1.6 -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
     display: flex;
     flex-direction: column;
-    padding: 2rem 1.5rem;
+    /* viewport-fit=cover lets the canvas reach the screen edges, so the content
+       has to step back out of the notch and home-indicator areas itself. */
+    padding:
+      calc(2rem + env(safe-area-inset-top))
+      calc(1.5rem + env(safe-area-inset-right))
+      calc(2rem + env(safe-area-inset-bottom))
+      calc(1.5rem + env(safe-area-inset-left));
   }
 
   main {
@@ -101,6 +122,10 @@
     padding: 0;
   }
 
+  footer .name {
+    color: var(--fg);
+  }
+
   footer .label {
     color: var(--fg);
     opacity: 0.5;
@@ -109,15 +134,16 @@
 </head>
 <body>
   <main>
-    <h1>Bautapixel AB</h1>
+    <h1>Bautapixel</h1>
     <p>
-      Vi arbetar med digitala lösningar och gränssnitt —
-      byggda för människorna som ska använda dem.
+      Vi gör appar och spel för iOS
+      och andra Apple-plattformar.
     </p>
   </main>
 
   <footer>
     <ul>
+      <li class="name">Bautapixel AB</li>
       <li><span class="label">Org.nr</span> 559501-1528</li>
       <li><span class="label">Momsreg.nr</span> SE559501152801</li>
       <li>Registrerad för moms</li>
