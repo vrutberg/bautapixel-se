@@ -6,6 +6,12 @@
 <title>Bautapixel AB</title>
 <meta name="description" content="Bautapixel AB gör appar och spel för iOS och andra Apple-plattformar. Organisationsnummer 559501-1528.">
 
+<!-- iOS paints the status bar as a flat tint rather than rendering the page
+     into it, so a gradient can never reach it. These are the gradient's own
+     colour at its top edge, which is the closest a flat tint can get. -->
+<meta name="theme-color" content="#fbfaf9" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#21242e" media="(prefers-color-scheme: dark)">
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@700&display=swap" rel="stylesheet">
@@ -50,10 +56,17 @@
     background-repeat: no-repeat;
     /* The root box only reaches the bottom of the *visible* area, which on iOS
        stops where the toolbar begins — sizing the gradient to that box is what
-       left a flat strip behind the bar. `lvh` is the viewport with the bars
-       retracted, i.e. the whole screen, so the gradient carries on behind them.
-       `max()` keeps it spanning the document if content ever grows past that. */
-    background-size: 100% max(100%, 100lvh);
+       left a flat strip behind the bar. Size it to the toolbars-retracted
+       viewport instead, so it carries on behind them.
+
+       Two plain declarations rather than one max(): if Safari rejects any part
+       of a value it discards the whole declaration and falls back to `auto`,
+       which is the broken state. On iOS `vh` is already the retracted
+       viewport, so the first line alone does the job; `lvh` says it explicitly
+       wherever it is understood. The page is one screen tall by design, so
+       there is no taller-document case to cover. */
+    background-size: 100% 100vh;
+    background-size: 100% 100lvh;
   }
 
   body {
