@@ -22,9 +22,11 @@
     --fg: #16161a;
     --muted: #6b6b73;
     --rule: rgba(22, 22, 26, 0.12);
-    /* Matches the linear-gradient's final stop, so anywhere the gradient image
-       itself doesn't reach still blends into it seamlessly. */
-    --page-base: #e2e7f0;
+    /* Shows only where the page cannot reach: the iOS status-bar tint and the
+       rubber-band overscroll. Both sit at the top of the screen, so this
+       matches the gradient's top edge — and it matches theme-color, so the
+       status bar lands on the right colour whichever of the two iOS uses. */
+    --page-base: #fbfaf9;
     --page-bg:
       radial-gradient(1100px 620px at 50% -10%, rgba(255, 255, 255, 0.95), transparent 62%),
       linear-gradient(158deg, #f7f4f0 0%, #edeef3 52%, #e2e7f0 100%);
@@ -35,7 +37,7 @@
       --fg: #ededf0;
       --muted: #9a9aa4;
       --rule: rgba(237, 237, 240, 0.14);
-      --page-base: #0b0d12;
+      --page-base: #21242e;
       --page-bg:
         radial-gradient(1100px 620px at 50% -10%, rgba(78, 90, 120, 0.32), transparent 62%),
         linear-gradient(158deg, #15151a 0%, #111318 52%, #0b0d12 100%);
@@ -50,23 +52,18 @@
      areas. On <body> with `background-attachment: fixed` iOS clips it to the
      body box and leaves those strips flat instead. */
   html {
-    min-height: 100%;
+    /* The root box itself has to span the screen. Safari confines the page's
+       background image to this box, so enlarging the image past it (the
+       previous attempt) painted nothing extra — the gradient still stopped at
+       the toolbar. `min-height: 100%` resolves to the *visible* area, which is
+       the strip between the status bar and the toolbar; `vh` is already the
+       toolbars-retracted viewport on iOS, and `lvh` restates it for browsers
+       that know the newer unit. The image then fills the box by default. */
+    min-height: 100vh;
+    min-height: 100lvh;
     background-color: var(--page-base);
     background-image: var(--page-bg);
     background-repeat: no-repeat;
-    /* The root box only reaches the bottom of the *visible* area, which on iOS
-       stops where the toolbar begins — sizing the gradient to that box is what
-       left a flat strip behind the bar. Size it to the toolbars-retracted
-       viewport instead, so it carries on behind them.
-
-       Two plain declarations rather than one max(): if Safari rejects any part
-       of a value it discards the whole declaration and falls back to `auto`,
-       which is the broken state. On iOS `vh` is already the retracted
-       viewport, so the first line alone does the job; `lvh` says it explicitly
-       wherever it is understood. The page is one screen tall by design, so
-       there is no taller-document case to cover. */
-    background-size: 100% 100vh;
-    background-size: 100% 100lvh;
   }
 
   body {
