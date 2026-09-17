@@ -1,0 +1,344 @@
+:root {
+  color-scheme: light dark;
+  --fg: #16161a;
+  --muted: #6b6b73;
+  --rule: rgba(22, 22, 26, 0.12);
+  --card-bg: rgba(255, 255, 255, 0.55);
+  --card-rule: rgba(22, 22, 26, 0.09);
+  --link: #3b1078;
+  /* Shows only where the page cannot reach: the iOS status-bar tint and the
+     rubber-band overscroll. Both sit at the top of the screen, so this
+     matches the gradient's top edge — and it matches theme-color, so the
+     status bar lands on the right colour whichever of the two iOS uses. */
+  --page-base: #fbfaf9;
+  --page-bg:
+    radial-gradient(1100px 620px at 50% -10%, rgba(255, 255, 255, 0.95), transparent 62%),
+    linear-gradient(158deg, #f7f4f0 0%, #edeef3 52%, #e2e7f0 100%);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --fg: #ededf0;
+    --muted: #9a9aa4;
+    --rule: rgba(237, 237, 240, 0.14);
+    --card-bg: rgba(255, 255, 255, 0.04);
+    --card-rule: rgba(237, 237, 240, 0.1);
+    --link: #c3b0ef;
+    --page-base: #21242e;
+    --page-bg:
+      radial-gradient(1100px 620px at 50% -10%, rgba(78, 90, 120, 0.32), transparent 62%),
+      linear-gradient(158deg, #15151a 0%, #111318 52%, #0b0d12 100%);
+  }
+}
+
+* { box-sizing: border-box; }
+
+/* The gradient lives on the root element, not on <body>: only the root
+   element's background becomes the canvas background, and the canvas is what
+   Safari on iOS paints behind its top and bottom bars and in the overscroll
+   areas. On <body> with `background-attachment: fixed` iOS clips it to the
+   body box and leaves those strips flat instead. */
+html {
+  /* The root box itself has to span the screen. Safari confines the page's
+     background image to this box, so enlarging the image past it (the
+     previous attempt) painted nothing extra — the gradient still stopped at
+     the toolbar. `min-height: 100%` resolves to the *visible* area, which is
+     the strip between the status bar and the toolbar; `vh` is already the
+     toolbars-retracted viewport on iOS, and `lvh` restates it for browsers
+     that know the newer unit. The image then fills the box by default. */
+  min-height: 100vh;
+  min-height: 100lvh;
+  background-color: var(--page-base);
+  background-image: var(--page-bg);
+  background-repeat: no-repeat;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  min-height: 100svh;
+  color: var(--fg);
+  font: 16px/1.6 -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+  display: flex;
+  flex-direction: column;
+  /* viewport-fit=cover lets the canvas reach the screen edges, so the content
+     has to step back out of the notch and home-indicator areas itself. */
+  padding:
+    calc(2rem + env(safe-area-inset-top))
+    calc(1.5rem + env(safe-area-inset-right))
+    calc(2rem + env(safe-area-inset-bottom))
+    calc(1.5rem + env(safe-area-inset-left));
+}
+
+main {
+  flex: 1 0 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 3rem 0;
+}
+
+h1 {
+  font-family: "Pixelify Sans", "Courier New", monospace;
+  font-weight: 700;
+  /* Stepped sizes, not a fluid clamp: a pixel typeface only stays crisp at
+     whole-number sizes, so fractional vw values are avoided on purpose. */
+  font-size: 40px;
+  letter-spacing: 0;
+  line-height: 1.1;
+  margin: 0;
+}
+
+@media (min-width: 30rem) {
+  h1 { font-size: 56px; }
+}
+
+@media (min-width: 48rem) {
+  h1 { font-size: 72px; }
+}
+
+/* Direct child only: the product page's paragraphs are styled per section. */
+main > p {
+  max-width: 30rem;
+  margin: 1.75rem 0 0;
+  font-size: 1.0625rem;
+  color: var(--muted);
+  text-wrap: balance;
+}
+
+footer {
+  flex: 0 0 auto;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--rule);
+  font-size: 0.8125rem;
+  color: var(--muted);
+}
+
+footer ul {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.35rem 1.25rem;
+  margin: 0;
+  padding: 0;
+}
+
+footer .name {
+  color: var(--fg);
+}
+
+footer .label {
+  color: var(--fg);
+  opacity: 0.5;
+}
+
+
+/* ---------- Galaxy Yatzy ---------- */
+
+:root {
+  /* Mirrored from the app's Theme.Palette so the product surfaces here match
+     the app exactly. */
+  --gy-space: #0D0221;
+  --gy-violet: #2A0A4A;
+  --gy-purple: #3B1078;
+  --gy-gold: #FFD24A;
+  --gy-gold-deep: #F5A623;
+  --gy-text: #F4EFFF;
+  --gy-text-muted: #B9A9D9;
+}
+
+/* Galaxy Yatzy's own headings, matching the app, where every title is
+   SwiftUI's rounded design. `ui-rounded` resolves to SF Pro Rounded on Apple
+   platforms; elsewhere this falls through to the plain system font. */
+.rounded {
+  font-family: ui-rounded, "SF Pro Rounded", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+  font-weight: 800;
+  letter-spacing: -0.015em;
+  line-height: 1.1;
+}
+
+a { color: var(--link); }
+
+.wrap {
+  width: 100%;
+  max-width: 54rem;
+  margin: 0 auto;
+}
+
+.eyebrow {
+  display: inline-block;
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* ---------- Product teaser on the landing page ---------- */
+
+.teaser {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.25rem;
+  margin-top: 4rem;
+  padding: 1.75rem 1.5rem;
+  max-width: 34rem;
+  border: 1px solid var(--card-rule);
+  border-radius: 1.25rem;
+  background: var(--card-bg);
+  text-decoration: none;
+  color: inherit;
+  transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.teaser:hover,
+.teaser:focus-visible { transform: translateY(-2px); border-color: var(--muted); }
+
+@media (min-width: 34rem) {
+  .teaser { flex-direction: row; text-align: left; gap: 1.5rem; }
+}
+
+.teaser img { width: 76px; height: 76px; flex: 0 0 auto; }
+.teaser h2 { margin: 0; font-size: 22px; }
+.teaser p { margin: 0.4rem 0 0; color: var(--muted); font-size: 0.9375rem; }
+.teaser .more { display: inline-block; margin-top: 0.6rem; font-size: 0.875rem; color: var(--link); }
+
+/* ---------- Product page ---------- */
+
+.site-nav {
+  flex: 0 0 auto;
+  font-size: 0.875rem;
+}
+
+.site-nav a { color: var(--muted); text-decoration: none; }
+.site-nav a:hover { color: var(--fg); }
+
+.product {
+  flex: 1 0 auto;
+  display: block;
+  text-align: left;
+  padding: 2rem 0 3rem;
+}
+
+.hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 1.5rem;
+  padding: 2.5rem 1.5rem;
+  border-radius: 1.5rem;
+  background: linear-gradient(180deg, var(--gy-space) 0%, var(--gy-violet) 52%, var(--gy-purple) 100%);
+  color: var(--gy-text);
+}
+
+@media (min-width: 40rem) {
+  .hero { flex-direction: row; text-align: left; gap: 2.25rem; padding: 3rem 2.5rem; }
+}
+
+.hero img {
+  width: 120px;
+  height: 120px;
+  flex: 0 0 auto;
+  filter: drop-shadow(0 12px 28px rgba(0, 0, 0, 0.45));
+}
+
+@media (min-width: 40rem) { .hero img { width: 156px; height: 156px; } }
+
+.hero h1 { font-size: 2.5rem; color: var(--gy-gold); }
+@media (min-width: 40rem) { .hero h1 { font-size: 3.25rem; } }
+
+.hero p {
+  margin: 0.9rem 0 0;
+  max-width: 28rem;
+  color: var(--gy-text-muted);
+  text-wrap: balance;
+}
+
+.hero .eyebrow { color: var(--gy-gold-deep); }
+
+.badge {
+  display: inline-block;
+  margin-top: 1.1rem;
+  padding: 0.4rem 0.9rem;
+  border: 1px solid rgba(255, 210, 74, 0.45);
+  border-radius: 999px;
+  font-size: 0.8125rem;
+  color: var(--gy-gold);
+}
+
+section { margin-top: 3.5rem; }
+
+section h2 {
+  margin: 0 0 0.35rem;
+  font-size: 1.75rem;
+}
+
+section > p {
+  margin: 0 0 1.5rem;
+  max-width: 38rem;
+  color: var(--muted);
+}
+
+.cards {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: 1fr;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+@media (min-width: 40rem) {
+  .cards { grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr)); }
+}
+
+.cards li {
+  padding: 1.25rem 1.35rem;
+  border: 1px solid var(--card-rule);
+  border-radius: 1rem;
+  background: var(--card-bg);
+}
+
+.cards h3 {
+  margin: 0 0 0.45rem;
+  font-size: 1.0625rem;
+}
+
+.cards p {
+  margin: 0;
+  font-size: 0.9375rem;
+  color: var(--muted);
+}
+
+.cards .meta {
+  display: block;
+  margin-top: 0.7rem;
+  font-size: 0.8125rem;
+  color: var(--fg);
+  opacity: 0.55;
+}
+
+.facts {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.6rem 1.5rem;
+  grid-template-columns: 1fr;
+  font-size: 0.9375rem;
+}
+
+@media (min-width: 34rem) { .facts { grid-template-columns: 1fr 1fr; } }
+
+.facts li {
+  display: flex;
+  gap: 0.6rem;
+  padding-top: 0.6rem;
+  border-top: 1px solid var(--rule);
+}
+
+.facts .label { color: var(--muted); min-width: 8.5rem; flex: 0 0 auto; }

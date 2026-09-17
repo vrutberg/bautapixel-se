@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Bautapixel AB</title>
-<meta name="description" content="Bautapixel AB gör appar och spel för iOS och andra Apple-plattformar. Organisationsnummer 559501-1528.">
+<meta name="description" content="Bautapixel AB gör appar och spel för iOS och andra Apple-plattformar. Först ut: Galaxy Yatzy för iPhone. Organisationsnummer 559501-1528.">
 
 <!-- iOS paints the status bar as a flat tint rather than rendering the page
      into it, so a gradient can never reach it. These are the gradient's own
@@ -16,137 +16,8 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@700&display=swap" rel="stylesheet">
 
-<style>
-  :root {
-    color-scheme: light dark;
-    --fg: #16161a;
-    --muted: #6b6b73;
-    --rule: rgba(22, 22, 26, 0.12);
-    /* Shows only where the page cannot reach: the iOS status-bar tint and the
-       rubber-band overscroll. Both sit at the top of the screen, so this
-       matches the gradient's top edge — and it matches theme-color, so the
-       status bar lands on the right colour whichever of the two iOS uses. */
-    --page-base: #fbfaf9;
-    --page-bg:
-      radial-gradient(1100px 620px at 50% -10%, rgba(255, 255, 255, 0.95), transparent 62%),
-      linear-gradient(158deg, #f7f4f0 0%, #edeef3 52%, #e2e7f0 100%);
-  }
-
-  @media (prefers-color-scheme: dark) {
-    :root {
-      --fg: #ededf0;
-      --muted: #9a9aa4;
-      --rule: rgba(237, 237, 240, 0.14);
-      --page-base: #21242e;
-      --page-bg:
-        radial-gradient(1100px 620px at 50% -10%, rgba(78, 90, 120, 0.32), transparent 62%),
-        linear-gradient(158deg, #15151a 0%, #111318 52%, #0b0d12 100%);
-    }
-  }
-
-  * { box-sizing: border-box; }
-
-  /* The gradient lives on the root element, not on <body>: only the root
-     element's background becomes the canvas background, and the canvas is what
-     Safari on iOS paints behind its top and bottom bars and in the overscroll
-     areas. On <body> with `background-attachment: fixed` iOS clips it to the
-     body box and leaves those strips flat instead. */
-  html {
-    /* The root box itself has to span the screen. Safari confines the page's
-       background image to this box, so enlarging the image past it (the
-       previous attempt) painted nothing extra — the gradient still stopped at
-       the toolbar. `min-height: 100%` resolves to the *visible* area, which is
-       the strip between the status bar and the toolbar; `vh` is already the
-       toolbars-retracted viewport on iOS, and `lvh` restates it for browsers
-       that know the newer unit. The image then fills the box by default. */
-    min-height: 100vh;
-    min-height: 100lvh;
-    background-color: var(--page-base);
-    background-image: var(--page-bg);
-    background-repeat: no-repeat;
-  }
-
-  body {
-    margin: 0;
-    min-height: 100vh;
-    min-height: 100svh;
-    color: var(--fg);
-    font: 16px/1.6 -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
-    display: flex;
-    flex-direction: column;
-    /* viewport-fit=cover lets the canvas reach the screen edges, so the content
-       has to step back out of the notch and home-indicator areas itself. */
-    padding:
-      calc(2rem + env(safe-area-inset-top))
-      calc(1.5rem + env(safe-area-inset-right))
-      calc(2rem + env(safe-area-inset-bottom))
-      calc(1.5rem + env(safe-area-inset-left));
-  }
-
-  main {
-    flex: 1 0 auto;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    padding: 3rem 0;
-  }
-
-  h1 {
-    font-family: "Pixelify Sans", "Courier New", monospace;
-    font-weight: 700;
-    /* Stepped sizes, not a fluid clamp: a pixel typeface only stays crisp at
-       whole-number sizes, so fractional vw values are avoided on purpose. */
-    font-size: 40px;
-    letter-spacing: 0;
-    line-height: 1.1;
-    margin: 0;
-  }
-
-  @media (min-width: 30rem) {
-    h1 { font-size: 56px; }
-  }
-
-  @media (min-width: 48rem) {
-    h1 { font-size: 72px; }
-  }
-
-  main p {
-    max-width: 30rem;
-    margin: 1.75rem 0 0;
-    font-size: 1.0625rem;
-    color: var(--muted);
-    text-wrap: balance;
-  }
-
-  footer {
-    flex: 0 0 auto;
-    padding-top: 1.25rem;
-    border-top: 1px solid var(--rule);
-    font-size: 0.8125rem;
-    color: var(--muted);
-  }
-
-  footer ul {
-    list-style: none;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 0.35rem 1.25rem;
-    margin: 0;
-    padding: 0;
-  }
-
-  footer .name {
-    color: var(--fg);
-  }
-
-  footer .label {
-    color: var(--fg);
-    opacity: 0.5;
-  }
-</style>
+<link rel="icon" href="assets/galaxy-yatzy-icon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="assets/site.css">
 </head>
 <body>
   <main>
@@ -155,6 +26,19 @@
       Vi gör appar och spel för iOS
       och andra Apple-plattformar.
     </p>
+
+    <a class="teaser" href="galaxy-yatzy.html">
+      <img src="assets/galaxy-yatzy-icon.svg" alt="" width="76" height="76">
+      <div>
+        <span class="eyebrow">Kommer snart</span>
+        <h2 class="rounded">Galaxy Yatzy</h2>
+        <p>
+          Yatzy för iPhone i tre varianter — nordisk, internationell
+          och maxi. Skaka för att kasta, spela tillsammans runt en skärm.
+        </p>
+        <span class="more">Läs mer om Galaxy Yatzy →</span>
+      </div>
+    </a>
   </main>
 
   <footer>
