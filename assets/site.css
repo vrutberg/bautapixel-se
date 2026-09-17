@@ -342,3 +342,36 @@ section > p {
 }
 
 .facts .label { color: var(--muted); min-width: 8.5rem; flex: 0 0 auto; }
+
+/* ---------- Language switcher ---------- */
+
+.lang {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  justify-content: center;
+  margin-top: 0.9rem;
+  font-size: 0.8125rem;
+}
+
+.lang a { color: var(--muted); text-decoration: none; }
+.lang a:hover { color: var(--fg); }
+
+/* The current language is shown but not linked, so the control always states
+   which one you are reading. */
+.lang [aria-current="true"] {
+  color: var(--fg);
+  font-weight: 600;
+}
+
+.lang .sep { color: var(--rule); }
+
+.site-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem 1.25rem;
+  align-items: baseline;
+  justify-content: space-between;
+}
+
+.site-nav .lang { margin-top: 0; }

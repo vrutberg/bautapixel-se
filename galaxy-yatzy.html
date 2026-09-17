@@ -6,6 +6,10 @@
 <title>Galaxy Yatzy — Bautapixel AB</title>
 <meta name="description" content="Galaxy Yatzy är ett kommande yatzyspel för iPhone med tre varianter — nordisk, internationell och maxi. Skaka för att kasta och spela tillsammans runt en skärm.">
 
+<link rel="alternate" hreflang="sv" href="https://bautapixel.se/galaxy-yatzy.html">
+<link rel="alternate" hreflang="en" href="https://bautapixel.se/en/galaxy-yatzy.html">
+<link rel="alternate" hreflang="x-default" href="https://bautapixel.se/galaxy-yatzy.html">
+
 <!-- iOS paints the status bar as a flat tint rather than rendering the page
      into it, so a gradient can never reach it. These are the gradient's own
      colour at its top edge, which is the closest a flat tint can get. -->
@@ -16,9 +20,14 @@
 <link rel="stylesheet" href="assets/site.css">
 </head>
 <body>
-  <nav class="site-nav wrap">
+  <div class="site-nav wrap">
     <a href="index.html">← Bautapixel AB</a>
-  </nav>
+    <nav class="lang" aria-label="Språk">
+      <span aria-current="true">Svenska</span>
+      <span class="sep" aria-hidden="true">/</span>
+      <a href="/en/galaxy-yatzy.html" lang="en" hreflang="en">English</a>
+    </nav>
+  </div>
 
   <main class="product wrap">
     <header class="hero">
@@ -78,7 +87,9 @@
       <ul class="cards">
         <li>
           <h3>Fri</h3>
-          <p>Fyll i vilken ledig kategori du vill varje omgång. Standardregler.</p>
+          <p>
+            Fyll i vilken ledig kategori du vill varje omgång. Standardregler.
+          </p>
         </li>
         <li>
           <h3>Sekventiell</h3>
