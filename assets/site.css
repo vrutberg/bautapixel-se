@@ -1,3 +1,16 @@
+/* Pixelify Sans (SIL Open Font License 1.1), self-hosted rather than loaded
+   from Google Fonts so the site makes no third-party requests and no visitor
+   IP address leaves this domain. Latin subset only: U+0000-00FF covers the
+   Swedish characters the wordmark needs. */
+@font-face {
+  font-family: "Pixelify Sans";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("pixelify-sans-700.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
 :root {
   color-scheme: light dark;
   --fg: #16161a;
@@ -375,3 +388,55 @@ section > p {
 }
 
 .site-nav .lang { margin-top: 0; }
+
+/* ---------- Legal pages ---------- */
+
+.legal { max-width: 42rem; }
+
+/* Overrides the pixel wordmark sizing: a policy is read, not branded. */
+.legal h1 {
+  font-family: inherit;
+  font-weight: 700;
+  font-size: 2rem;
+  letter-spacing: -0.01em;
+  margin: 0 0 0.3rem;
+}
+
+.legal .updated {
+  margin: 0 0 2rem;
+  font-size: 0.875rem;
+  color: var(--muted);
+}
+
+.legal .summary {
+  margin: 0 0 2.5rem;
+  padding: 1.25rem 1.35rem;
+  border: 1px solid var(--card-rule);
+  border-radius: 1rem;
+  background: var(--card-bg);
+}
+
+.legal .summary p { margin: 0; }
+
+.legal h2 {
+  font-size: 1.3rem;
+  margin: 2.5rem 0 0.75rem;
+}
+
+.legal h3 {
+  font-size: 1.0625rem;
+  margin: 1.75rem 0 0.5rem;
+}
+
+.legal p { margin: 0 0 1rem; }
+
+.legal ul { margin: 0 0 1rem; padding-left: 1.2rem; }
+.legal li { margin-bottom: 0.4rem; }
+
+.legal .entity {
+  margin-top: 2.5rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--rule);
+  font-size: 0.875rem;
+  color: var(--muted);
+}
